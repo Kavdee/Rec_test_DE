@@ -16,10 +16,10 @@ services:
     restart: always
 
 
-  my_script:
-    image: my-image
-    build: images/my-image
-    command: ["python","./my_script.py"]
+  upload:
+    image: upload
+    build: images/upload
+    command: ["python","./upload.py"]
     volumes:
       - ./data:/data
 

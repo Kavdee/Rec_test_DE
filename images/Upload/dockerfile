@@ -2,9 +2,7 @@ FROM python:3.10
 
 WORKDIR /app
 
-RUN chmod +x ./
-
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY my_script.py ./
+COPY upload.py ./
