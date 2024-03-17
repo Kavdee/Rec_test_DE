@@ -25,3 +25,10 @@ services:
     volumes:
       - ./data:/data
 
+  read:
+    image: read
+    build: images/read
+    command: ["python","./read.py"]
+    volumes:
+      - ./data:/data
+
