@@ -83,40 +83,31 @@ docker compose build
 
 ### Starting MySQL
 
-To start up the MySQL database. This will will take a short while to run the database’s start-up scripts.
+To start up the MySQL database. This will will take a short while to run the database’s start-up scripts. 
 
 ```
-docker compose up database
+docker compose up -d database
 ```
 
-Optional: if you want to connect to the MySQL database via the command-line client. This may be useful for looking at the database schema or data.
+After the database is up and running, the following line will set up the schema in the db.
 
 ```
-docker compose run database mysql --host=database --user=codetest --password=swordfish codetest
+docker exec -i rec_test_de-database-1 mysql --host=database --user=codetest --password=swordfish -e "USE codetest; SOURCE schema.sql;"
 ```
 
-### Example scripts
+### Python scripts
 
-We have provided example code written in C, Node, Python, R, Ruby, and Swift. These show how to use a programme in a separate Docker container to connect to the database, using an ORM library where appropriate, to load data from a CSV file, and to query data to output as a JSON file. There should be regarded as illustrative; it is fine to use any of these examples as the basis of your own solution, but we would prefer that you use technologies that you feel comfortable with.
-
-Make sure the MySQL database is running, and then load the example schema with:
+I have created 2 images, upload and read. Both of them are python scripts, using similar structure. First, run the upload image, so the data is uploaded to the mysql db. After that, run the read image, so it can fetch the data from the db and create the json output.
 
 ```
-docker compose run --no-TTY database mysql --host=database --user=codetest --password=swordfish codetest <example_schema.sql
+docker compose run upload
+```
+When the run is finished, you can run the second image.
+```
+docker compose run read
 ```
 
-Then make sure that the containers have been built with `docker compose build` and run one or more of the sample programmes with:
 
-```
-docker compose run example-c
-docker compose run example-node
-docker compose run example-python
-docker compose run example-r
-docker compose run example-ruby
-docker compose run example-swift
-```
-
-In each case, the programme loads data from the data/example.csv file into that table, and exports data from the database table to a JSON file in the data folder. Note that the scripts do not truncate the table, so each one you run will add additional content.
 
 ### Cleaning up
 
